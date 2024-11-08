@@ -12,8 +12,9 @@ return {
         HitErrorMeter = require("Objects.Game.PlayState.HitErrorMeter"),
         HealthBar = require("Objects.Game.PlayState.HealthBar"),
         NoteUnderlay = require("Objects.Game.PlayState.NoteUnderlay"),
+        JudgementCounter = require("Objects.Game.PlayState.JudgementCounter"),
 
-        --particles
+        --Particles
         Splash = require("Objects.Game.PlayState.Particles.Splash"),
         ComboAlertParticle = require("Objects.Game.PlayState.Particles.ComboAlert"),
         HealthParticle = require("Objects.Game.PlayState.Particles.HealthParticle"),

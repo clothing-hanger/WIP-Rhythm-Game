@@ -82,6 +82,7 @@ function PlayState:initObjects()
     Objects.Game.HealthBar:new()
     Objects.Game.HealthParticle:new(Skin.Params["Health Bar X"]+Inits.GameWidth/2, Skin.Params["Health Bar Y"]-Skin.Params["Health Bar Height"]+90+Inits.GameHeight/2)  -- translate by half the screen because the health bar is translated by half the screen
     Objects.Game.NoteUnderlay:new(#lanes)
+    Objects.Game.JudgementCounter:new()
     Timer.after(0.4, function()
         Objects.Game.Background:setDimness(Settings.backgroundDim/100, true)
 
@@ -98,7 +99,9 @@ function PlayState:update(dt)
     PlayState:updateObjects(dt)
     
     ---@diagnostic disable-next-line: deprecated
-    performance = metaData.difficulty * math.pow(accuracy/198, 6)     -- guglio where did you get 198          still dont know what 198 is for lmao
+    performance = metaData.difficulty * math.pow(accuracy/198, 6)
+
+    performance = metaData.difficulty * accuracy  -- will this be better????      it wasnt better lmao
 
     updatemusicTimeFunction()
     self:updateTime()
@@ -388,7 +391,7 @@ function PlayState:draw()
     Objects.Game.Combo:draw()
     Objects.Game.HitErrorMeter:draw()
     Objects.Game.HealthBar:draw()
-
+    Objects.Game.JudgementCounter:draw()
     Objects.Game.HealthParticle:draw()
 
     if doScript then

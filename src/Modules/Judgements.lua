@@ -4,6 +4,7 @@ function InitializeJudgments()
     Judgements = {
         ["Marvelous"] = {
             Judgement = "Marvelous",
+            Abbreviation = "MV",
             Timing = 26,
             Score = 1,
             Count = 0,
@@ -13,6 +14,7 @@ function InitializeJudgments()
         },
         ["Perfect"] = {
             Judgement = "Perfect",
+            Abbreviation = "PF",
             Timing = 56,
             Score = 0.8,
             Count = 0,
@@ -22,6 +24,7 @@ function InitializeJudgments()
         },
         ["Great"] = {
             Judgement = "Great",
+            Abbreviation = "GR",
             Timing = 86,
             Score = 0.6,
             Count = 0,
@@ -31,6 +34,7 @@ function InitializeJudgments()
         },
         ["Good"] = {
             Judgement = "Good",
+            Abbreviation = "GD",
             Timing = 106,
             Score = 0.4,
             Count = 0,
@@ -41,6 +45,7 @@ function InitializeJudgments()
         },
         ["Okay"] = {
             Judgement = "Okay",
+            Abbreviation = "OK",
             Timing = 126,
             Score = 0.2,
             Count = 0,
@@ -50,6 +55,7 @@ function InitializeJudgments()
         },
         ["Miss"] = {
             Judgement = "Miss",
+            Abbreviation = "MS",
             Timing = 146,
             Score = 0,
             Count = 0,

@@ -12,9 +12,15 @@ local wheelPositions = {
 }
 
 local wheelSettings = {
-    masterVolume = "masterVolume",
-    effectVolume = "effectVolume",
-    musicVolume = "musicVolume",
+    "masterVolume",
+    "effectVolume",
+    "musicVolume",
+}
+
+volume = {
+    master = 0,
+    effect = 0,
+    music = 0
 }
 
 ---@param wheel string The key for the momentum
@@ -53,7 +59,7 @@ end
 function volumeUpdate(dt)
     if love.keyboard.isDown("ralt") or love.keyboard.isDown("lalt") then
 
-        for _, setting in pairs(wheelSettings) do
+        for _, setting in ipairs(wheelSettings) do
             applyMomentum(setting, dt)
         end
 
@@ -64,6 +70,7 @@ function volumeUpdate(dt)
             momentum[key] = 0
         end
     end
+
 
     alpha = clamp(alpha, 0, 1)
 end

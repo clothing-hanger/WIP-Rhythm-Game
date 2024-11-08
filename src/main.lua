@@ -82,8 +82,10 @@ function love.update(dt)
     debugUpdate(dt)
     notificationUpdate(dt)
     volumeUpdate(dt)
+    
+    love.audio.setVolume((Settings["masterVolume"]/100) or 0)
 
-   -- updatemusicTimeFunction()   -- TEMPORARY FIX FOR SONGS NOT RESETTING
+   -- updatemusicTimeFunction()   -- TEMPORARY FIX FOR SONGS NOT RESETTING       theres nothing more permanent than a temporary fix
 
     mouseTimer = (mouseTimer and mouseTimer - 1000*dt) or 1000
     mouseMoved = false

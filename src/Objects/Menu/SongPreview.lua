@@ -2,6 +2,8 @@ local SongPreview = Class:extend()
 
 function SongPreview:new(x, y, width, height, chart)
     previewingSong = true
+    updatemusicTime = true
+    musicTime = 0
     self.x = (x or 100)
     self.y = (x or 100)
     self.width = (width or 300)
@@ -14,8 +16,8 @@ function SongPreview:new(x, y, width, height, chart)
     self.strumYPosition = Settings.scrollDirection == "Down" and Inits.GameHeight or 0
     self.inputMode = self.inputMode or "4K"
 
-    SongPreview:initSVMarks()
-    SongPreview:initNotePositions()
+    self:initSVMarks()
+    self:initNotePositions()
 
     quaverParse(chart)
 end
@@ -78,6 +80,9 @@ end
 ---@param index? number
 ---@return number pos y position
 function SongPreview:getPositionFromTime(time, index)
+    if #self.ScrollVelocityMarks == 0 then
+        return time
+    end
     local index = index or -1
 
     if index == -1 then

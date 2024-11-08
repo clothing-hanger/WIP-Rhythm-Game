@@ -39,15 +39,18 @@ function TitleScreen:enter()
     
     SelectedDifficulty = 1
     if not SelectedSong then SelectedSong = love.math.random(1,#SongList) end
-
+--[[
 
     if not Song or (Song and not Song:isPlaying()) then 
         TitleScreen:switchSong()
         SelectedSong = love.math.random(1,#SongList)
-
+        print("case 1")
     else
         TitleScreen:switchSong()
+        print("case 2")
     end
+--]]
+    TitleScreen:switchSong()
 
 
     buttons = {    -- time to make yet another completely different button format because i cant code consistently

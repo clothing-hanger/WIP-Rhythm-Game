@@ -58,6 +58,7 @@ function Note:getNotePosition(time)
     if State.current() ~= States.Game.PlayState then -- must not be in playstate, so this needs to use the variables from the chart previewer
         strumYPosition = Objects.Menu.SongPreview.strumYPosition
         currentTime = Objects.Menu.SongPreview.CurrentTime
+        time = Objects.Menu.SongPreview:getPositionFromTime(self.StartTime) -- Horrible fix but I dont care
     else
         strumYPosition = States.Game.PlayState.strumYPosition
         currentTime = States.Game.PlayState.CurrentTime
@@ -74,6 +75,7 @@ function Note:getNotePosition(time)
 end
 
 function Note:update(dt)
+    if not self.visible then return end
     if Mods.wave then
         self.StartTime = self.StartTime - waveTime
     end

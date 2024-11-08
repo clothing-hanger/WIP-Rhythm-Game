@@ -10,9 +10,9 @@ function quaverParse(file, argument)
     print("quaverParse(" .. file .. ")")
     songFolder = ""
     if not file then State.switch(States.SongSelectState) end
-    if not love.filesystem.getInfo(file, "file") then
+    --[[ if not love.filesystem.getInfo(file, "file") then
         State.switch(States.SongSelectState)
-    end
+    end ]]
 
     metaData = {}
     metaData.songLength = 0
