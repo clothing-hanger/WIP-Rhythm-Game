@@ -50,6 +50,7 @@ function PreLoader:update(dt)
             local safeArtist = tostring(chart.Artist):gsub("\\", "\\\\"):gsub("\"", "\\\"")
             local safeCharter = tostring(chart.Creator):gsub("\\", "\\\\"):gsub("\"", "\\\"")
             local safeBackground = tostring(chart.BackgroundFile):gsub("\\", "\\\\"):gsub("\"", "\\\"")
+            local safeBanner = tostring(chart.BannerFile):gsub("\\", "\\\\"):gsub("\"", "\\\"")
             local safeAudio = tostring(chart.AudioFile):gsub("\\", "\\\\"):gsub("\"", "\\\"")
 
             if i == 1 then
@@ -60,12 +61,13 @@ function PreLoader:update(dt)
             end
             
             metaString = metaString .. string.format(
-                "{fileName = \"%s\", diffName = \"%s\", artistName = \"%s\", charterName = \"%s\", background = \"%s\", audio = \"%s\", format = \"%s\"},\n", 
+                "{fileName = \"%s\", diffName = \"%s\", artistName = \"%s\", charterName = \"%s\", background = \"%s\", banner = \"%s\", audio = \"%s\", format = \"%s\"},\n", 
                 DifficultyList[i],
                 safeDiffName,
                 safeArtist,
                 safeCharter,
                 safeBackground,
+                safeBanner,
                 safeAudio,
                 "Quaver"
             )

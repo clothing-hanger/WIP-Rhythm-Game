@@ -52,7 +52,8 @@ end
 function SongSelect:setupSongButtons()
     for i = 1,#SongList do
         local metaData = love.filesystem.load("Music/"..SongList[i].."/meta.lua")()
-        table.insert(SongButtons, Objects.Menu.SongButton(metaData.songName, "PLACEHOLDER", "PLACEHOLDER", i, Inits.GameWidth/2, 0, 200, 40))
+        local pathToSong = "Music/"..SongList[i].."/"
+        table.insert(SongButtons, Objects.Menu.SongButton(metaData.songName, "PLACEHOLDER", "PLACEHOLDER", metaData.difficulties[1].banner, metaData.difficulties[1].background, pathToSong, i, Inits.GameWidth/2, 0, 200, 40))
     end
 end
 
@@ -78,6 +79,7 @@ function SongSelect:updateButtons(dt)
 
             SongButton.width = SongButton.width + (targetWidth - SongButton.width) * speed * dt  
             SongButton.height = SongButton.height + (targetHeight - SongButton.height) * speed * dt 
+            if SelectedSong == i and not SongButton.imageLoaded then SongButton:loadImage(); print(i .. " loaded image") end
         end
     elseif MenuState == "Difficulty" then
         for i, DifficultyButton in ipairs(DifficultyButtons) do
