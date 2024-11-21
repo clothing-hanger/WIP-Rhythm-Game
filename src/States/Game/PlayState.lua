@@ -109,9 +109,7 @@ function PlayState:update(dt)
     updateBPM()
     
     if Song and (musicTime >= 0 and not Song:isPlaying()) then -- to make sure it doesnt restart
-        Song:setPitch(Mods.songRate)
-
-        Song:play()
+        PlayState:startSong()
     end
     for _, Lane in ipairs(lanes) do
         for _, Note in ipairs(Lane) do
@@ -146,6 +144,11 @@ function PlayState:update(dt)
             updateScript(dt)
         end
     end
+end
+
+function PlayState:startSong()
+    Song:setPitch(Mods.songRate)
+    Song:play()
 end
 
 ---Initializes the sv markers
