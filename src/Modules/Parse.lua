@@ -127,7 +127,7 @@ function quaverParse(file, argument)
             local startTime = (velocity.StartTime or 0)
             local velocityChange = velocity.Multiplier
 
-            table.insert(scrollVelocities, Objects.Game.ScrollVelocity(startTime, velocityChange))
+          --  table.insert(scrollVelocities, Objects.Game.ScrollVelocity(startTime, velocityChange))
         end
 
         for i = 1, #lanes do
