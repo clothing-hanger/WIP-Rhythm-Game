@@ -59,8 +59,8 @@ function Visualizer:getAverageBarLength()
 end
 
 function Visualizer:bump()
-    self.color = {0.2,1,1,0.5}
-    local colorAfter = {1,1,0.2,0.3}
+    self.color = {0.4,0.8,0.8,1}
+    local colorAfter = {0,0.8,0.8,1}
 
     Timer.tween(0.5, self.color, {[1] = colorAfter[1], [2] = colorAfter[2], [3] = colorAfter[3], [4] = colorAfter[4]})
 end
