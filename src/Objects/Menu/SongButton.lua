@@ -41,6 +41,7 @@ function SongButton:click()
 end
 
 function SongButton:loadImage()
+    --[[
     if love.filesystem.getInfo(self.path .. self.banner, "file") then
         self.banner = love.graphics.newImage(self.path .. self.banner)
     elseif love.filesystem.getInfo(self.path .. self.background, "file") then
@@ -49,6 +50,7 @@ function SongButton:loadImage()
         notification("Failed to find valid image for button", "error")
     end
     self.imageLoaded = true
+    --]]
 end
 
 function SongButton:draw()

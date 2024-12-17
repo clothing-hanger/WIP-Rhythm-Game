@@ -26,7 +26,7 @@ function Splash:setupColors(noteTime)
             local color = judgement.Color
             self.colorS = {color[1], color[2], color[3], 1}
             self.colorT = {color[1], color[2], color[3], 0}
-            self.particleSystem:setColors(self.colorS, self.colorT, {1, 1, 1})
+            self.particleSystem:setColors(self.colorS, self.colorT)
             break
         end
     end

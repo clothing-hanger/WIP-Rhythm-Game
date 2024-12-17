@@ -38,6 +38,7 @@ function Splash:emit()
 end
 
 function Splash:draw()
+    
     love.graphics.draw(self.particleSystem)
 end
 
