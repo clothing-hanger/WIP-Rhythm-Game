@@ -121,7 +121,13 @@ function Note:hit(noteTime, unconvertedNoteTime, wasMiss)
     self.wasHit = true
     self.tooLate = wasMiss
     table.insert(noteHits, {noteTime = unconvertedNoteTime, musicTime = musicTime, wasMiss = wasMiss})  -- prob will edit this later, idk
-
+    for _, Splash in ipairs(Splashes) do
+        if Splash.lane == Note.Lane then
+            Splash:emit(ConvertedNoteTime)
+        end
+    end
+    Objects.Game.HitErrorMeter:addHit(unconvertedNoteTime)
+    Objects.Game.JudgementCounter:bumpJudgement()
     if doScript then
         if wasMiss then
             if scriptOnNoteMiss then

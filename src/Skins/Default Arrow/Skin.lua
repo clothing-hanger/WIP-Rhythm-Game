@@ -17,9 +17,9 @@ Skin.Params = {
     ["Hit Error Meter Fade"] = 1000,              -- how long in milliseconds a hit will take to fade from the hit error graph
     ["Note Underlay Color"] = rgb {0, 0, 0},
     ["Judgement Counter Bump Amount"] = 10,       -- How many units the judgement counter bumps when a judgement is added
-    ["Judgement Counter Spacing"] = 30,
-    ["Judgement Counter X"] = Inits.GameWidth - 30, -- X position of judgement counter
-    ["Judgement Counter Y"] = Inits.GameHeight/2,    -- Y position of judgement counter
+    ["Judgement Counter Spacing"] = 60,
+    ["Judgement Counter X"] = Inits.GameWidth - 210, -- X position of judgement counter
+    ["Judgement Counter Y"] = Inits.GameHeight/2-150,    -- Y position of judgement counter
     ["Health Bar X"] = 350,                       -- X position of the health bar
     ["Health Bar Y"] = 300,                       -- Y position of the health bar
     ["Health Bar Height"] = 700,                  -- Height of the health bar
@@ -41,6 +41,7 @@ Skin.Fonts = {
     ["Menu Large"] = newFont("FONTS/SourceCodePro-Medium.ttf", 25),
     ["Menu Small"] = newFont("FONTS/SourceCodePro-Medium.ttf", 15),
     ["Menu Extra Small"] = newFont("FONTS/SourceCodePro-Medium.ttf", 12),
+    ["Judgement Counter"] = newFont("FONTS/Novamono-njdg.ttf", 60)
 }
 
 Skin.Notes = {
