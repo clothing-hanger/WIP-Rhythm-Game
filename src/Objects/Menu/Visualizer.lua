@@ -59,10 +59,10 @@ function Visualizer:getAverageBarLength()
 end
 
 function Visualizer:bump()
-    self.color = {0.5,0.5,0.5,0.4}
-    self.color = {0,1,1,0.4}
+    self.color = {0.4,0.8,0.8,1}
+    local colorAfter = {0,0.8,0.8,1}
 
-   -- Timer.tween(0.5, self.color, {[1] = 0, [2] = 0, [3] = 0, [4] = 0})
+    Timer.tween(0.5, self.color, {[1] = colorAfter[1], [2] = colorAfter[2], [3] = colorAfter[3], [4] = colorAfter[4]})
 end
 
 function Visualizer:draw()
@@ -73,6 +73,7 @@ function Visualizer:draw()
     local barHeightMultiplier = Inits.GameHeight
 
     local centerY = Inits.GameHeight / 2
+    love.graphics.setBlendMode("screen")
 
     love.graphics.push()
     love.graphics.translate(0, -centerY)
@@ -90,6 +91,7 @@ function Visualizer:draw()
             love.graphics.rectangle("fill", i * barWidth, 0, barWidth - 1, barHeight)
         end
         love.graphics.pop()
+        love.graphics.setBlendMode("alpha")
 
     love.graphics.pop()
     love.graphics.setColor(1, 1, 1, 1)
@@ -100,3 +102,4 @@ end
 return Visualizer
 
 
+ 

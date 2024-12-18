@@ -13,7 +13,7 @@ function love.errorhandler(msg)
     local logo = love.graphics.newImage("Images/CrashHandler/logo.png")
 
     local selection = 1
-
+ 
 
 
 	if not love.window or not love.graphics or not love.event then
