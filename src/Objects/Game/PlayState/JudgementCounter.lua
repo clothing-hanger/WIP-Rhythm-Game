@@ -20,6 +20,7 @@ function JudgementCounter:update(dt)
 end
 
 function JudgementCounter:bumpJudgement(judgement)
+    --[[
     print("begin print judgement")
     print(judgement)        -- why the FUCK DOES THIS NOT WORK 
     print("end print judgement")

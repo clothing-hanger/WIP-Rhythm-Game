@@ -6,7 +6,7 @@ local timings
 
 local arrowWhiteToBlack
 function Intro:enter()
-    fakeMusicTime = -100
+    fakeMusicTime = -500  -- half a second to make sure  intro isnt broken on slow ass hardware
     flashAlpha = {0}
     arrowWhiteToBlack = {1}
     Objects.Menu.ModifiersMenu:new()  -- :/
@@ -119,14 +119,18 @@ function Intro:hitArrows(arrow)
 end
 
 function Intro:draw()
+    love.graphics.translate(Inits.GameWidth/2,Inits.GameHeight/2)
+    local scale = (flashAlpha[1]*0.25)+1
+    love.graphics.scale(scale,scale)
+    love.graphics.translate(-Inits.GameWidth/2,-Inits.GameHeight/2)
+
     love.graphics.setColor(1,1,1,flashAlpha[1])
     love.graphics.rectangle("fill",0,0,Inits.GameWidth,Inits.GameHeight)
+   -- love.graphics.scale(2*flashAlpha[1], 2*flashAlpha[1])
     for i = 1,#arrows do
         love.graphics.setColor(arrowWhiteToBlack[1], arrowWhiteToBlack[1], arrowWhiteToBlack[1],arrows[i].alpha)
         love.graphics.draw(arrows[i].image, arrows[i].x, arrows[i].y, nil, arrows[i].sx, arrows[i].sy)
     end
-
-
 end
 
 return Intro 

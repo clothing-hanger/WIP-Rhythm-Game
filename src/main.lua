@@ -42,7 +42,7 @@ function love.run()
 			love.graphics.present()
 		end
 
-		--if love.timer then love.timer.sleep(0.001) end             -- MAKE A FUCKING FPS LIMIT   THIS IS IMPORTANT
+		--if love.timer then love.timer.sleep(0.05) end             -- MAKE A FUCKING FPS LIMIT   THIS IS IMPORTANT
 	end
 end
 
