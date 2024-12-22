@@ -50,7 +50,7 @@ function TitleScreen:enter()
         print("case 2")
     end
 --]]
-    TitleScreen:switchSong()
+    --TitleScreen:switchSong()
 
 
     buttons = {    -- time to make yet another completely different button format because i cant code consistently
@@ -257,6 +257,10 @@ function TitleScreen:draw()
         love.graphics.rectangle("line", Button.x, Button.y, Button.width, Button.height)
         love.graphics.printf(Button.text, Button.x, Button.y+10, Button.width, "center")
     end
+
+
+    love.graphics.setColor(1, 1, 1, flashAlpha[1])
+    love.graphics.rectangle("fill",0, 0 ,Inits.GameWidth, Inits.GameHeight)
 end
 
 
