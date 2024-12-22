@@ -256,12 +256,15 @@ function PlayState:judge(noteTime)
             score = score + (BestScorePerNote*judgement.Score)
             health = health + judgement.Health
             PlayState:calculateAccuracy()
+            print(judgement.Judgement)
+            Objects.Game.JudgementCounter:bumpJudgement(judgement.Judgement)
             return
         end
     end
     -- must be a miss then lmfao LOSER you SUCK 
     Judgements["Miss"].Count = Judgements["Miss"].Count + 1
     Objects.Game.Judgement:judge("Miss")
+    Objects.Game.JudgementCounter:bumpJudgement("Miss")
     health = health + Judgements["Miss"].Health
     PlayState:calculateAccuracy()
     return
@@ -284,14 +287,9 @@ function PlayState:checkInput()
                 local NoteTime = (musicTime - Note.StartTime)
                 local ConvertedNoteTime = math.abs(NoteTime)
                 if Note.Lane == i and ConvertedNoteTime < Judgements["Miss"].Timing and not Note.wasHit then
-                    PlayState:judge(ConvertedNoteTime)
-                    Note:hit(ConvertedNoteTime, NoteTime)
-                    for _, Splash in ipairs(Splashes) do
-                        if Splash.lane == Note.Lane then
-                            Splash:emit(ConvertedNoteTime)
-                        end
-                    end
-                    Objects.Game.HitErrorMeter:addHit(NoteTime)
+                    local judgement = PlayState:judge(ConvertedNoteTime)
+                    Note:hit(ConvertedNoteTime, NoteTime, judgement)
+
                     if ConvertedNoteTime < Judgements["Okay"].Timing then  -- to figure out whether or not to reset the combo
                         Objects.Game.Combo:incrementCombo(false)  -- false means we dont reset it
                     else
