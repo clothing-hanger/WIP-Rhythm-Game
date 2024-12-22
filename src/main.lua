@@ -50,6 +50,8 @@ print(jit and jit.version or _VERSION)
 
 love.audio.setVolume(0.15)
 
+--function print() return end
+
 function toGameScreen(x, y)
     -- converts a position to the game screen
     local ratio = 1
@@ -133,12 +135,8 @@ function love.update(dt)
 
     mouseTimer = (mouseTimer and mouseTimer - 1000*dt) or 1000
     mouseMoved = false
-    local count = 0
-    for _, _ in pairs(_G) do
-        count = count + 1
-    end
-    print(count)end
-
+    
+end
 function love.wheelmoved(_, y)
     if love.keyboard.isDown("ralt") or love.keyboard.isDown("lalt") then
         volumeScroll(y)
@@ -175,6 +173,8 @@ function love.keypressed(key)
         end
     end
 end
+
+function print() end
 
 function love.draw()
     love.graphics.push()

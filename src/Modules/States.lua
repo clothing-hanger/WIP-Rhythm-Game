@@ -6,7 +6,8 @@ return {
     Menu = {
         SongSelect = require("States.Menu.SongSelect"),
         SettingsMenu = require("States.Menu.SettingsMenu"),
-        TitleScreen = require("States.Menu.TitleScreen")
+        TitleScreen = require("States.Menu.TitleScreen"),
+        Intro = require("States.Menu.Intro"),
     },
     Misc = {
         PreLoader = require("States.Misc.PreLoader")

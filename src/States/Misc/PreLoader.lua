@@ -15,9 +15,24 @@ local deleteMetaFiles = false  -- Set this to true to delete meta files instead 
 function PreLoader:enter()
     SongList = love.filesystem.getDirectoryItems("Music")
     frame = 0
+
+    preloaderFont = love.graphics.newFont("Fonts/SourceCodePro-Medium.ttf", 30)
+    logo = love.graphics.newImage("Images/Intro/logo.png")
+
+    loadingArrows = {}
+    for i = 1,4 do
+        local girth = 60  -- i need to stop coding like this..
+        local cock = (Inits.GameWidth - 265) + ((i-1)*girth)
+        local dick = Inits.GameHeight - 180
+        local penis = love.graphics.newImage("images/intro/" .. i .. ".png")
+        table.insert(loadingArrows, {image = penis, x = cock, y = dick, sizeX = 0.2, sizeY = 0.2, alpha = 0})
+    end
+    self:updateLoadingArrows()
+
 end
 
 function PreLoader:update(dt)
+    
     foundMeta = false
     metaString = ""
     frame = plusEq(frame)
@@ -87,13 +102,37 @@ function PreLoader:update(dt)
     if frame == #SongList and deleteMetaFiles then 
         love.event.quit()  -- Close the game once all meta files have been deleted
     elseif frame == #SongList then
-        State.switch(States.Menu.TitleScreen) 
+        State.switch(States.Menu.Intro) 
+        preloaderFont = nil
+    end
+
+    
+end
+
+function PreLoader:updateLoadingArrows()
+    print("what")
+    local newAlpha = (loadingArrows[1].alpha == 1 and 0) or 1
+    for i = 1,#loadingArrows do
+        Timer.after((1*i)-1, function()
+            Timer.tween(0.5, loadingArrows[i], {alpha = newAlpha}, "linear", function()
+                if i == #loadingArrows then PreLoader:updateLoadingArrows() end
+            end)
+        end)
     end
 end
 
 function PreLoader:draw()
-
+    love.graphics.setColor((foundMeta and {1,1,1}) or {0,1,1})
     love.graphics.rectangle("fill", 0, Inits.GameHeight-100,Inits.GameWidth*(frame/#SongList), 20)
+    love.graphics.setFont((preloaderFont and preloaderFont) or defaultFont)
+    love.graphics.setColor(1,1,1)
+    love.graphics.draw(logo, Inits.GameWidth/2, Inits.GameHeight/2-130, nil, 1.15, 1.15, logo:getWidth()/2, logo:getHeight()/2)
+    love.graphics.printf("Hang tight! Harmoni is processing your songs!\nThis might take some time if the song has not been processed before.\nPlease don't close the game!! (unless you really wanna.. i dont care lmfao)\n\n(A blue loading bar means the song is being first-time processed.)", 0, Inits.GameHeight/2, Inits.GameWidth, "center")
+    for i =1,#loadingArrows do
+        love.graphics.setColor(1,1,1, loadingArrows[i].alpha)
+
+        love.graphics.draw(loadingArrows[i].image, loadingArrows[i].x, loadingArrows[i].y, nil, loadingArrows[i].sizeX, loadingArrows[i].sizeY)
+    end
 end
 
 return PreLoader
