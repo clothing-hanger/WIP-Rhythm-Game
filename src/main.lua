@@ -174,7 +174,6 @@ function love.keypressed(key)
     end
 end
 
-function print() end
 
 function love.draw()
     love.graphics.push()

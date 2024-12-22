@@ -1,5 +1,4 @@
 local SongSelect = State()
-SongList = love.filesystem.getDirectoryItems("Music")
 local MenuState
 local selectedSongHeight = Inits.GameHeight/2
 local hovered

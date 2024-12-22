@@ -35,7 +35,14 @@ function Intro:enter()
         table.insert(arrows, {timing = timing, image = image, x = x, y = y, sx = sx, sy = sy, alpha = alpha})
     end
 
-    SelectedSong = #SongList -- this should always be Harmonize (i hope...)
+   -- SelectedSong = #SongList -- this should always be Harmonize (i hope...)   (  it wasnt :/  )
+
+
+    for i = 1,#SongList do
+        if SongList[i] == "Harmonize" then SelectedSong = i end
+    end
+
+
     SelectedDifficulty = 1
     Intro:loadSong()
 
