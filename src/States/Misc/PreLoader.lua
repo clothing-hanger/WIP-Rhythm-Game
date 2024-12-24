@@ -1,6 +1,5 @@
 local PreLoader = State()
 local SongContents
-local DifficultyList = {}
 local foundMeta
 local chart
 local fileName
@@ -42,7 +41,7 @@ function PreLoader:update(dt)
         frame = plusEq(frame)
         local musicDirectory = "Music/" .. SongList[frame] .. "/"
         SongContents = love.filesystem.getDirectoryItems(musicDirectory)
-        DifficultyList = {}
+        local DifficultyList = {}
         for i,file in ipairs(SongContents) do
 
             if file == "meta.lua" then
