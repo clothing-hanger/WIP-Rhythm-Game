@@ -151,9 +151,9 @@ Skin.Particles = {
 }
 
 Skin.Menu = {
-    ["Main Logo"] = newImage("Menu/main logo.png"),
-    ["H"] = newImage("Menu/H.png"),
-    ["Icon Logo"]  = newImage("Menu/logoH.png"),
+    ["Main Logo"] = newImage("MENU/main logo.png"),
+    ["H"] = newImage("MENU/H.png"),
+    ["Icon Logo"]  = newImage("MENU/logoH.png"),
     ["Loading Spinner"] = newImage("MENU/logoH.png"),
 }
 

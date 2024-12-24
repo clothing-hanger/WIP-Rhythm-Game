@@ -18,6 +18,7 @@ function SongButton:new(songName, charterName, artistName, banner, background, p
     self.banner = banner
     self.background = background
     self.imageLoaded = false
+    self.imageFailedToLoad = false
 
 end
 
@@ -51,6 +52,7 @@ function SongButton:loadImage()
     end
     self.imageLoaded = true
     --]]
+    self.imageFailedToLoad = true
 end
 
 function SongButton:draw()
