@@ -1,34 +1,35 @@
 function loadSettings()
     settingsFile = love.filesystem.load("Settings/Settings.lua")
 
+    if Settings == nil then Settings = {} end
     if not settingsFile then
         States.Menu.SettingsMenu:saveSettings()  -- sets up default 
         settingsFile = love.filesystem.load("Settings/Settings.lua")
     end
         
     -- check for missing settings
-    Settings = settingsFile()
+    Settings = settingsFile() or {}
     local hasMissing = States.Menu.SettingsMenu:checkForMissingSettings()
     
     if hasMissing then
         States.Menu.SettingsMenu:saveSettings()
     end
-    
+    local GameScreenMiddle = Inits.GameWidth/2
     LanesPositions = {
         ["4K"] = {
-            Inits.GameWidth/2 - (Settings.laneWidth*1.5),
-            Inits.GameWidth/2 - (Settings.laneWidth*0.5),
-            Inits.GameWidth/2 + (Settings.laneWidth*0.5),
-            Inits.GameWidth/2 + (Settings.laneWidth*1.5),
+            GameScreenMiddle - (Settings.laneWidth*1.5),
+            GameScreenMiddle - (Settings.laneWidth*0.5),
+            GameScreenMiddle + (Settings.laneWidth*0.5),
+            GameScreenMiddle + (Settings.laneWidth*1.5),
         },
         ["7K"] = {
-            Inits.GameWidth/2 - (Settings.laneWidth*3),
-            Inits.GameWidth/2 - (Settings.laneWidth*2),
-            Inits.GameWidth/2 - (Settings.laneWidth),
-            Inits.GameWidth/2,
-            Inits.GameWidth/2 + (Settings.laneWidth),
-            Inits.GameWidth/2 + (Settings.laneWidth*2),
-            Inits.GameWidth/2 + (Settings.laneWidth*3),
+            GameScreenMiddle - (Settings.laneWidth*3),
+            GameScreenMiddle - (Settings.laneWidth*2),
+            GameScreenMiddle - (Settings.laneWidth),
+            GameScreenMiddle,
+            GameScreenMiddle + (Settings.laneWidth),
+            GameScreenMiddle + (Settings.laneWidth*2),
+            GameScreenMiddle + (Settings.laneWidth*3),
         }
     }
 

@@ -1,6 +1,6 @@
 return {
     Game = {
-        PlayState = require("States.Game.Playstate"),
+        PlayState = require("States.Game.PlayState"),
         Results = require("States.Game.Results"),
     },
     Menu = {
