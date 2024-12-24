@@ -13,6 +13,7 @@ local tabOffset = {0}
 
 function SongSelect:enter()
     doScreenWipe("leftOut")
+    SongSelect:getSongs(true)
     MenuState = "Song"
     SelectedSong = (SelectedSong or 1)
     PlayingSong = SelectedSong
@@ -47,11 +48,31 @@ function SongSelect:updateObjects(dt)
     Objects.Menu.ModifiersMenu:update()
     Objects.Menu.ListMenu:update(dt)
 end 
-
-function SongSelect:setupSongButtons()
-    for i = 1,#SongList do
-        local metaData = love.filesystem.load("Music/"..SongList[i].."/meta.lua")()
+function SongSelect:getSongs(recache)
+    if(not recache and self.SongList) then return self.SongList end
+    local sl = {}
+    self.SongList = sl
+    local i = 1 -- Using a while loop, else removing songs from the list would cause SongList to get out of sync with the loop. 
+                -- Ideally we'd switch to just using SongSelect.SongList everywhere but I'm too lazy
+    while i <= #SongList do
         local pathToSong = "Music/"..SongList[i].."/"
+        local metaData = love.filesystem.load(pathToSong.."meta.lua")
+        if(metaData) then
+            sl[i] = {name=SongList[i],metaData=metaData()}
+        else
+            print(("%q IS AN INVALID SONG!"):format(pathToSong))
+            table.remove(SongList,i)
+            if(SelectedSong >= i) then SelectedSong = SelectedSong - 1 end
+            i=i-1 
+        end
+        i=i+1
+    end
+end
+function SongSelect:setupSongButtons()
+
+    for i,song in ipairs(self:getSongs()) do
+        local metaData = song.metaData
+        local pathToSong = "Music/"..song.name.."/"
         table.insert(SongButtons, Objects.Menu.SongButton(metaData.songName, "PLACEHOLDER", "PLACEHOLDER", metaData.difficulties[1].banner, metaData.difficulties[1].background, pathToSong, i, Inits.GameWidth/2, 0, 200, 40))
     end
 end
@@ -78,7 +99,10 @@ function SongSelect:updateButtons(dt)
 
             SongButton.width = SongButton.width + (targetWidth - SongButton.width) * speed * dt  
             SongButton.height = SongButton.height + (targetHeight - SongButton.height) * speed * dt 
-            if SelectedSong == i and not SongButton.imageLoaded then SongButton:loadImage(); print(i .. " loaded image") end
+            if SelectedSong == i and not SongButton.imageLoaded and not SongButton.imageFailedToLoad then 
+                SongButton:loadImage();
+                print(i .. " loaded image")
+            end
         end
     elseif MenuState == "Difficulty" then
         for i, DifficultyButton in ipairs(DifficultyButtons) do
@@ -215,11 +239,11 @@ function SongSelect:switchSong()
 
     print("Switch Song")
     
-    local metaData = love.filesystem.load("Music/"..SongList[SelectedSong].."/meta.lua")()
     if not SongList[SelectedSong] then
         notification("Selected Song does not exist!", "error")
         return
     end
+    local metaData = love.filesystem.load("Music/"..SongList[SelectedSong].."/meta.lua")()
     if not metaData.difficulties[SelectedDifficulty] then
         notification("Selected Difficulty does not exist!", "error")
         return
@@ -284,7 +308,7 @@ function SongSelect:setupDifficultyList()
     local SongContents = love.filesystem.getDirectoryItems("Music/" .. SongList[SelectedSong])
     local metaData = love.filesystem.load("Music/"..SongList[SelectedSong].."/meta.lua")()
     for i = 1, #SongContents do
-        if getFileExtension(tostring(SongContents[i])) == ".qua" then
+        if tostring(SongContents[i]):sub(-4)== ".qua" then
             table.insert(DifficultyList, SongContents[i])
             for j, difficulty in ipairs(metaData.difficulties) do
                 if tostring(DifficultyList[i]) == difficulty.fileName then

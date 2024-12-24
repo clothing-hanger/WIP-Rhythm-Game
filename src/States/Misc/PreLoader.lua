@@ -1,6 +1,5 @@
 local PreLoader = State()
 local SongContents
-local DifficultyList = {}
 local foundMeta
 local chart
 local fileName
@@ -13,6 +12,7 @@ local curMetaVersion = 3       -- doesnt work correctly yet
 local deleteMetaFiles = false  -- Set this to true to delete meta files instead of creating them (the game will close when it finishes)
 
 function PreLoader:enter()
+    PreLoader.stopArrows=false
     SongList = love.filesystem.getDirectoryItems("Music")
     SongListTotalLength = #SongList
     frame = 0
@@ -33,44 +33,49 @@ function PreLoader:enter()
     logo = love.graphics.newImage("Images/Intro/logo.png")
 
     loadingArrows = {}
+    local screenEnd = Inits.GameWidth - 265
+    local screenTop = Inits.GameHeight - 180
     for i = 1,4 do
-        local girth = 60  -- i need to stop coding like this..
-        local cock = (Inits.GameWidth - 265) + ((i-1)*girth)
-        local dick = Inits.GameHeight - 180
-        local penis = love.graphics.newImage("images/intro/" .. i .. ".png")
-        table.insert(loadingArrows, {image = penis, x = cock, y = dick, sizeX = 0.2, sizeY = 0.2, alpha = 0})
+        local width = 60  -- yes you do
+        local x = screenEnd + ((i-1)*width)
+        local image = love.graphics.newImage("Images/Intro/" .. i .. ".png")
+        table.insert(loadingArrows, {image = image, x = x, y = screenTop, sizeX = 0.2, sizeY = 0.2, alpha = 0})
     end
     self:updateLoadingArrows()
 
 end
 
 function PreLoader:update(dt)
-    
-    foundMeta = false
-    metaString = ""
-    frame = plusEq(frame)
-    SongContents = love.filesystem.getDirectoryItems("Music/" .. SongList[frame] .. "/")
-    DifficultyList = {}
+    local i = 1
+    while i < 10 do -- This should probably be a dynamic number so things can load faster
+        i = i + 1
+        foundMeta = false
+        metaString = ""
+        frame = plusEq(frame)
+        local musicDirectory = "Music/" .. SongList[frame] .. "/"
+        SongContents = love.filesystem.getDirectoryItems(musicDirectory)
+        local DifficultyList = {}
+        for i,file in ipairs(SongContents) do
 
-    for i = 1, #SongContents do
-        if deleteMetaFiles and SongContents[i] == "meta.lua" then
-            love.filesystem.remove("Music/" .. SongList[frame] .. "/meta.lua")
-            foundMeta = true  -- Mark as found so that it's not regenerated
-        elseif getFileExtension(SongContents[i]) == ".qua" then
-            table.insert(DifficultyList, SongContents[i])
-        elseif SongContents[i] == "meta.lua" then
-            local meta = love.filesystem.load("Music/" .. SongList[frame] .. "/" .. "meta.lua")()
-            if meta.version and (tonumber(meta.version) or 0) == curMetaVersion then
-                foundMeta = true
-            else
-                foundMeta = false
+            if file == "meta.lua" then
+                if(deleteMetaFiles) then
+                    love.filesystem.remove(musicDirectory .. "/meta.lua")
+                    foundMeta = true  -- Mark as found so that it's not regenerated
+                else
+                    local meta = love.filesystem.load(musicDirectory .. "meta.lua")()
+                    foundMeta = (meta.version and (tonumber(meta.version) or 0) == curMetaVersion)
+                end
+            elseif file:sub(-4) == ".qua" then
+                table.insert(DifficultyList, SongContents[i])
             end
         end
-    end
-    
-    if not foundMeta and not deleteMetaFiles then
-        for i = 1, #DifficultyList do
-            chart = Tinyyaml.parse(love.filesystem.read("Music/" .. SongList[frame] .. "/" .. DifficultyList[i]))
+
+        
+        if not foundMeta and not deleteMetaFiles then
+            local safeTitle
+            local metas = {}
+            for i = 1, #DifficultyList do
+                chart = Tinyyaml.parse(love.filesystem.read(musicDirectory .. DifficultyList[i]))
 
             -- Escape quotes and backslashes in the strings
             safeTitle = tostring(chart.Title):gsub("\\", "\\\\"):gsub("\"", "\\\"")     -- tostring them because somehow I had one be a number????
@@ -118,24 +123,25 @@ function PreLoader:update(dt)
         State.switch(States.Menu.Intro) 
         preloaderFont = nil
     end
-
     
 end
-
+function PreLoader:exit()
+    PreLoader.stopArrows=true
+end
 function PreLoader:updateLoadingArrows()
-    local currentBottomLineText = bottomLineText
-    while currentBottomLineText == bottomLineText do
-        bottomLineText = love.math.random(1, #bottomLineTexts)
-    end
+    print("what")
     local newAlpha = (loadingArrows[1].alpha == 1 and 0) or 1
     for i = 1,#loadingArrows do
         Timer.after((1*i)-1, function()
             Timer.tween(0.5, loadingArrows[i], {alpha = newAlpha}, "linear", function()
-                if i == #loadingArrows then PreLoader:updateLoadingArrows() end
+                if i == #loadingArrows then 
+                    PreLoader:updateLoadingArrows()
+                end
             end)
         end)
     end
 end
+
 
 function PreLoader:draw()
     love.graphics.setColor((foundMeta and {1,1,1}) or {0,1,1})

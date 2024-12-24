@@ -113,9 +113,23 @@ function TitleScreen:setupDifficultyList()  -- same comment here as in the funct
     DifficultyButtons = {}
     DifficultyList = {}
     local SongContents = love.filesystem.getDirectoryItems("Music/" .. SongList[SelectedSong])
-    local metaData = love.filesystem.load("Music/"..SongList[SelectedSong].."/meta.lua")()
+    local metaData = love.filesystem.load("Music/"..SongList[SelectedSong].."/meta.lua")
+    if not metaData then
+        for i,song in pairs(SongList) do
+            metaData = love.filesystem.load("Music/"..song.."/meta.lua")
+            if metaData then
+                SelectedSong = i
+                SongContents = love.filesystem.getDirectoryItems("Music/" .. song)
+                break
+            end
+        end
+        if not metaData then
+            error('No songs found!')
+        end
+    end
+    metaData = metaData()
     for i = 1, #SongContents do
-        if getFileExtension(tostring(SongContents[i])) == ".qua" then
+        if tostring(SongContents[i]):sub(-4) == ".qua" then
             table.insert(DifficultyList, SongContents[i])
             for j, difficulty in ipairs(metaData.difficulties) do
                 if tostring(DifficultyList[i]) == difficulty.fileName then
