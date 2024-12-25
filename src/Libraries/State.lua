@@ -151,7 +151,6 @@ end
 local function new(name)
     local name = name or ("State." .. string.format("%x", math.random(0, 0xFFFFFFFF)))
     return setmetatable({}, {
-        __index = state,
         __tostring = function() 
             return name
         end,
@@ -164,7 +163,6 @@ end
 
 ---@diagnostic disable-next-line: deprecated
 local unpack = table.unpack or unpack
-
 setmetatable(state, { -- Allows you to call state functions as if they were global
     __index = function(_, func)
         -- return function(...) return (current[func] or nop)(...) end
