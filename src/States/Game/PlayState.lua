@@ -13,7 +13,6 @@ local allHits
 
 function PlayState:enter()
     musicTime = -99999999 -- just a super low number, musicTime will get actually initialized slightly later
-    quaverParse(SongString)
     --Init self variables
     self.myBalls = math.huge
     self.ScrollVelocityMarks = {}
