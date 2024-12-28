@@ -101,15 +101,14 @@ function Intro:endIntro()
     if fadeInTimer then Timer.cancel(fadeInTimer) end
     for i = 1,#arrows do
         Timer.tween(3, arrows[i], {alpha = 1})
-        
         flashTween = Timer.tween(3, flashAlpha, {1})
-        Timer.tween(0.8, arrowWhiteToBlack, {0}, "linear", function()
-            if flashTween then Timer.cancel(flashTween) end
-            Timer.tween(1, flashAlpha, {0})
-            State.switch(States.Menu.TitleScreen) 
-        end)
-
     end
+    Timer.tween(0.8, arrowWhiteToBlack, {0}, "linear", function()
+        if flashTween then Timer.cancel(flashTween) end
+        Timer.tween(1, flashAlpha, {0})
+        State.switch(States.Menu.TitleScreen) 
+    end)
+    flashAlpha[1] = 0
 end
 
 function Intro:hitArrows(arrow)

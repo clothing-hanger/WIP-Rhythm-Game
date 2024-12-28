@@ -12,6 +12,7 @@ firstTimeOnTitle = true
 function TitleScreen:enter()
     Objects.Menu.ModifiersMenu:new()
     Objects.Menu.Visualizer:new()
+    Objects.Menu.NowPlaying:new("Harmonize", "Getsaa", "Official Harmoni OST")
 
     debugHY = Inits.GameHeight/2
     debugHX = Inits.GameWidth/2
@@ -242,6 +243,7 @@ function TitleScreen:draw()
 
 
     Objects.Menu.Visualizer:draw()
+    Objects.Menu.NowPlaying:draw()
 
     local hWidth = Skin.Menu["H"]:getWidth() * hSize.x  -- set the scissor 
     local hHeight = Skin.Menu["H"]:getHeight() * hSize.y
@@ -273,8 +275,8 @@ function TitleScreen:draw()
     end
 
 
-    love.graphics.setColor(1, 1, 1, flashAlpha[1])
-    love.graphics.rectangle("fill",0, 0 ,Inits.GameWidth, Inits.GameHeight)
+   -- love.graphics.setColor(1, 1, 1, flashAlpha[1])
+   -- love.graphics.rectangle("fill",0, 0 ,Inits.GameWidth, Inits.GameHeight)
 end
 
 

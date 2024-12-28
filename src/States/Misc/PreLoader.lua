@@ -110,6 +110,8 @@ function PreLoader:update(dt)
         print("Meta file deleted for:", SongList[frame])
     else
         print("Meta Found")
+        meta = require("Music/" .. SongList[frame] .. "/meta")
+        safeTitle = meta.songName
     end
     
     if frame == #SongList and deleteMetaFiles then 
