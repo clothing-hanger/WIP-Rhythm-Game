@@ -3,47 +3,64 @@ utf8 = require("utf8")
 love.filesystem.createDirectory("Music")
 love.filesystem.createDirectory("Settings")
 love.filesystem.createDirectory("Logs")
+
+love._framerate = 1025 -- Due to frametime differences, this lets it sit at the 1000fps mark
+
 function love.run()
-    ---@diagnostic disable-next-line: redundant-parameter, undefined-field
-	if love.load then love.load(love.arg.parseGameArguments(arg), arg) end
+    -- Locals run faster than globals, so to juice out some extra performance, we'll use locals for the main loop
+    local g_origin, g_clear, g_present = love.graphics.origin, love.graphics.clear, love.graphics.present
+    local g_active, g_getBGColour = love.graphics.isActive, love.graphics.getBackgroundColor
+    local e_pump, e_poll = love.event.pump, love.event.poll, {}, 0
+    local t_step = love.timer.step
+    local t_getTime = love.timer.getTime
+    local t_sleep = love.timer.sleep
+    local dt = 0
+    local love = love
+    local love_load, love_update, love_draw = love.load, love.update, love.draw
+    local love_quit, a_parseGameArguments = love.quit, love.arg.parseGameArguments
+    local collectgarbage = collectgarbage
+    local love_handlers = love.handlers
 
-	-- We don't want the first frame's dt to include time taken by love.load.
-	if love.timer then love.timer.step() end
+    love_load(a_parseGameArguments(arg), arg)
 
-	local dt = 0
+	t_step()
+    t_step()
+    collectgarbage()
 
-	-- Main loop time.
+    local lastFrame = 0
+
 	return function()
-		-- Process events.
-		if love.event then
-			love.event.pump()
-			for name, a,b,c,d,e,f in love.event.poll() do
-				if name == "quit" then
-					if not love.quit or not love.quit() then
-						return a or 0
-					end
-				end
-				love.handlers[name](a,b,c,d,e,f)
-			end
-		end
+        e_pump()
 
-		-- Update dt, as we'll be passing it to update
-		if love.timer then dt = love.timer.step() end
+        ---@diagnostic disable-next-line: redefined-local
+        for name, a,b,c,d,e,f in e_poll() do
+            if name == "quit" then
+                if not love_quit or not love_quit() then
+                    return a or 0
+                end
+            end
+            love_handlers[name](a,b,c,d,e,f)
+        end
 
-		-- Call update and draw
-		if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
+        dt = t_step()
 
-		if love.graphics and love.graphics.isActive() then
-			love.graphics.origin()
-			love.graphics.clear(love.graphics.getBackgroundColor())
+        love_update(dt)
 
-			if love.draw then love.draw() end
+        while t_getTime() - lastFrame < 1 / love._framerate do
+            t_sleep(0.0005)
+        end
 
-			love.graphics.present()
-		end
+        lastFrame = t_getTime()
+        
+        if g_active() then
+            g_origin()
+            g_clear(g_getBGColour())
+            love_draw()
+            g_present()
+        end
 
-		--if love.timer then love.timer.sleep(0.05) end             -- MAKE A FUCKING FPS LIMIT   THIS IS IMPORTANT
-	end
+        collectgarbage("step")
+    end
 end
 
 print(jit and jit.version or _VERSION)

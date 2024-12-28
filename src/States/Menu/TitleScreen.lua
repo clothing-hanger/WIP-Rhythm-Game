@@ -208,11 +208,15 @@ function TitleScreen:update(dt)
     if Song and Song:isPlaying() then
         Objects.Menu.Visualizer:update(dt)
     end
+
+    if Input:pressed("menuConfirm") then
+        buttons[1].func()
+    end
     
 
     if menuState == "title" then
         TitleScreen:doReturnToHTimer()
-        if Input:pressed("menuClickLeft") then
+        if Input:pressed("menuClickLeft") or Input:pressed("menuConfirm") then
             for _, Button in pairs(buttons) do
                 if cursorX >= Button.x and cursorX <= Button.x+Button.width and cursorY >= Button.y and cursorY <= Button.y + Button.height then
                     Button.func()

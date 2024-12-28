@@ -37,7 +37,7 @@ function PreLoader:enter()
         local girth = 60  -- i need to stop coding like this..
         local cock = (Inits.GameWidth - 265) + ((i-1)*girth)
         local dick = Inits.GameHeight - 180
-        local penis = love.graphics.newImage("images/intro/" .. i .. ".png")
+        local penis = love.graphics.newImage("Images/Intro/" .. i .. ".png")
         table.insert(loadingArrows, {image = penis, x = cock, y = dick, sizeX = 0.2, sizeY = 0.2, alpha = 0})
     end
     self:updateLoadingArrows()
