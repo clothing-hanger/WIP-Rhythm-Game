@@ -137,7 +137,7 @@ function quaverParse(file, argument)
         end
         metaData.songLengthToLastNote = metaData.lastNoteTime/1000
         BestScorePerNote = 1000000/(#lanes[1]+#lanes[2]+#lanes[3]+#lanes[4])
-        metaData.difficulty = calculateDifficulty(lanes, metaData.songLengthToLastNote)
+        metaData.difficulty = calculateDifficulty(lanes, metaData.songLengthToLastNote, metaData)
 
     end
     metaData.songLength = Song:getDuration()

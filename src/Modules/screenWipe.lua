@@ -28,7 +28,6 @@ end
 ---Wipes the screen in/out with a given direction
 function doScreenWipe(dir, func)
     if not spinner then
-        spinner = Skin.Menu["Loading Spinner"]
     end
     
     if dir == "rightIn" then
