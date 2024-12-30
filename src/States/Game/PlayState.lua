@@ -98,9 +98,9 @@ function PlayState:update(dt)
     PlayState:updateObjects(dt)
     
     ---@diagnostic disable-next-line: deprecated
-    performance = metaData.difficulty * math.pow(accuracy/198, 6)
+    --performance = metaData.difficulty * math.pow(accuracy/198, 6)
 
-    performance = metaData.difficulty * accuracy  -- will this be better????      it wasnt better lmao
+    performance = metaData.difficulty * math.pow(accuracy/100,6)  -- will this be better????      it wasnt better lmao
 
     updatemusicTimeFunction()
     self:updateTime()

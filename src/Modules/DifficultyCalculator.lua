@@ -4,6 +4,7 @@ local npsWindows = 6             --now many different windows there are (i would
 local npsWindowWidth = 5             -- how many notes per second per window to increase difficulty score (im ass at explaining things)
 local npsChunkScoreBase = 10          --how much difficulty score to add per nps window before calculating the difficulty score for that window
 local npsChunkScoreIncrease = 0.5    -- how much difficculty score is multipled by per window
+local overallMultiplier = 75    -- overall difficulty mulitplier
 local jackDifficultyIncrease = 0.01 -- how much a second note in a row adds to that chunks difficulty score
 
 
@@ -14,15 +15,14 @@ local calculateNps
 
 function calculateDifficulty(lanes, songDuration, metaData)
     calcMetaData = metaData
-    print("MEEEEE ITS MEE" .. calcMetaData.name)
     if not calcMetaData.name and not calcMetaData.difficulty then
-        notification("Difficulty Calculation Failed! idfk what to do if this happens", "error")
+        notification("Difficulty Calculation Failed!\nMetaData Not Found!", "error")
+        State.switch(States.Menu.SongSelect)
         return
     end
 
     if calcMetaData.inputMode == "7" or calcMetaData.inputMode == 7 then -- lmao i dont know if its a number or string and its my own code 
-        notification("Difficulty Calculater only works for normal people fuck 7 key players i HATE you go kill yourself", "error")
-        return
+        notification("7K Difficulty is currently not calculated", "warning")
     end
     
 
@@ -76,11 +76,11 @@ function calculateDifficulty(lanes, songDuration, metaData)
     leftChunks.difficulty = calculateAverageDifficulty(leftChunks)
     rightChunks.difficulty = calculateAverageDifficulty(rightChunks)
 
-    local finalDifficulty = ((leftChunks.difficulty + rightChunks.difficulty) / 2)*10
+    local finalDifficulty = ((leftChunks.difficulty + rightChunks.difficulty) / 2)*overallMultiplier
 
-    print("THE ACTUAL DIFFICULTY")
+    print("FINAL DIFFICULTY")
     print(finalDifficulty)
-    return finalDifficulty
+    return (finalDifficulty or 0)
 end
 
 
@@ -121,8 +121,6 @@ function calculateAverageNPS(chunks)
     local notesCount = 0
     for _, Chunk in ipairs(chunks) do
         notesCount = notesCount + #Chunk.notes
-        print("NOTES COUNT")
-        print(notesCount)
     end
     local nps = notesCount / calcMetaData.songLengthToLastNote
     return nps
@@ -130,16 +128,10 @@ end
 
 
 function calculateAverageDifficulty(chunks)
-    print("DFSIHJOIJAHDSHJDDDI")
-    print(#chunks)
     local totalDifficulty = 0
     local chunkCount = #chunks
     for _, Chunk in ipairs(chunks) do
-        print("COCK COCK COCK")
-        print(Chunk.difficulty)
         if Chunk.difficulty then
-            print("CHUNK Difficulty !!!!!!!!!!!!")
-            print(totalDifficulty)
             totalDifficulty = totalDifficulty + Chunk.difficulty
         end
     end

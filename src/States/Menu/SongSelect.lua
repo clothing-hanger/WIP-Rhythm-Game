@@ -288,11 +288,12 @@ function SongSelect:switchToPlayState()
     musicTime = -2000
     Objects.Menu.ModifiersMenu:configureMods()
     SongString = "Music/" .. SongList[SelectedSong] .. "/" .. DifficultyList[SelectedDifficulty]
-    quaverParse(SongString)
+    if quaverParse(SongString) then
 
-    doScreenWipe("rightIn", function()
-        State.switch(States.Game.PlayState)
-    end)
+        doScreenWipe("rightIn", function()
+            State.switch(States.Game.PlayState)
+        end)
+    end
 end
 
 ---@param state string The state name to switch to
