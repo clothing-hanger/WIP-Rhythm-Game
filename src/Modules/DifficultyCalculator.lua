@@ -1,35 +1,16 @@
----@param lanes table The lanes of the generated song
----@param songDuration number The duration of the song in seconds
----@return number nps The nps of thesong
----@
----@
---
-local chunkLength = 5    -- seconds per chunk
-local npsWindows = 6
-local npsWindowWidth = 5
-local npsChunkScoreBase = 10
-local npsChunkScoreIncrease = 0.5
-local jackDifficultyIncrease = 0.01
-
-
+ 
+local chunkLength = 5               -- seconds per chunk
+local npsWindows = 6             --now many different windows there are (i would stop around where the highest window is from lke 35- whatever)
+local npsWindowWidth = 5             -- how many notes per second per window to increase difficulty score (im ass at explaining things)
+local npsChunkScoreBase = 10          --how much difficulty score to add per nps window before calculating the difficulty score for that window
+local npsChunkScoreIncrease = 0.5    -- how much difficculty score is multipled by per window
+local jackDifficultyIncrease = 0.01 -- how much a second note in a row adds to that chunks difficulty score
 
 
 local calcMetaData
 local makeChunks
 local calculateNps
 
---[[
-
-function calculateDifficulty(lanes, songDuration, metaData)  -- all it uses is nps 💀
-    local totalNoteCount = 0
-    for i = 1, #lanes do
-        totalNoteCount = totalNoteCount + #lanes[i]
-    end
-    local nps = totalNoteCount / songDuration
-    return nps
-end
-
---]]
 
 function calculateDifficulty(lanes, songDuration, metaData)
     calcMetaData = metaData
