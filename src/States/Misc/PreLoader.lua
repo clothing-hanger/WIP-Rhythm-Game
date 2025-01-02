@@ -13,6 +13,9 @@ local curMetaVersion = 3       -- doesnt work correctly yet
 local deleteMetaFiles = false  -- Set this to true to delete meta files instead of creating them (the game will close when it finishes)
 
 function PreLoader:enter()
+    Objects.Menu.ModifiersMenu:new()
+    Objects.Menu.ModifiersMenu:configureMods()
+
     SongList = love.filesystem.getDirectoryItems("Music")
     SongListTotalLength = #SongList
     frame = 0
@@ -49,6 +52,7 @@ function PreLoader:update(dt)
     foundMeta = false
     metaString = ""
     frame = plusEq(frame)
+    SelectedSong = frame
     SongContents = love.filesystem.getDirectoryItems("Music/" .. SongList[frame] .. "/")
     DifficultyList = {}
 
@@ -70,16 +74,19 @@ function PreLoader:update(dt)
     
     if not foundMeta and not deleteMetaFiles then
         for i = 1, #DifficultyList do
-            chart = Tinyyaml.parse(love.filesystem.read("Music/" .. SongList[frame] .. "/" .. DifficultyList[i]))
+            SelectedDifficulty = i
+            chart = quaverParse("Music/" .. SongList[frame] .. "/" .. DifficultyList[i])
+            local noChartError = "idfk chart didnt process right idk"
 
             -- Escape quotes and backslashes in the strings
-            safeTitle = tostring(chart.Title):gsub("\\", "\\\\"):gsub("\"", "\\\"")     -- tostring them because somehow I had one be a number????
-            safeDiffName = tostring(chart.DifficultyName):gsub("\\", "\\\\"):gsub("\"", "\\\"")
-            safeArtist = tostring(chart.Artist):gsub("\\", "\\\\"):gsub("\"", "\\\"")
-            safeCharter = tostring(chart.Creator):gsub("\\", "\\\\"):gsub("\"", "\\\"")
-            safeBackground = tostring(chart.BackgroundFile):gsub("\\", "\\\\"):gsub("\"", "\\\"")
-            safeBanner = tostring(chart.BannerFile):gsub("\\", "\\\\"):gsub("\"", "\\\"")
-            safeAudio = tostring(chart.AudioFile):gsub("\\", "\\\\"):gsub("\"", "\\\"")
+            safeTitle = (chart and tostring(chart.name):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError) -- tostring them because somehow I had one be a number????
+            safeDiffName = (chart and tostring(chart.diffName):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError)
+            safeArtist = (chart and tostring(chart.artist):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError)
+            safeCharter = (chart and tostring(chart.creator):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError)
+            safeBackground = (chart and tostring(chart.background):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError)
+            safeBanner = (chart and tostring(chart.banner):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError)
+            safeAudio = (chart and tostring(chart.song):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError)
+            safeDifficulty = (chart and tostring(chart.difficulty):gsub("\\", "\\\\"):gsub("\"", "\\\"") or noChartError) -- Added this line
 
             if i == 1 then
                 metaString = string.format(
@@ -87,9 +94,9 @@ function PreLoader:update(dt)
                     safeTitle, curMetaVersion
                 )
             end
-            
+
             metaString = metaString .. string.format(
-                "{fileName = \"%s\", diffName = \"%s\", artistName = \"%s\", charterName = \"%s\", background = \"%s\", banner = \"%s\", audio = \"%s\", format = \"%s\"},\n", 
+                "{fileName = \"%s\", diffName = \"%s\", artistName = \"%s\", charterName = \"%s\", background = \"%s\", banner = \"%s\", audio = \"%s\", difficulty = \"%s\", format = \"%s\"},\n", 
                 DifficultyList[i],
                 safeDiffName,
                 safeArtist,
@@ -97,8 +104,10 @@ function PreLoader:update(dt)
                 safeBackground,
                 safeBanner,
                 safeAudio,
+                safeDifficulty, -- Added here
                 "Quaver"
             )
+
             if i == #DifficultyList then 
                 metaString = metaString .. "}}"
             end

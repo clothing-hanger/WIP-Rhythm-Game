@@ -43,7 +43,8 @@ function quaverParse(file, argument)
         bpm = 0,
         inputMode = chart.Mode:gsub("Keys", ""),  -- will be used to make sure its 4 key
     }
-
+    print("PARSER SELECTED SONG: ")
+    print("PARSER SELECTED SONG: " .. SelectedSong)
     songFolder = "Music/" .. SongList[SelectedSong] -- make this used more here instead of repeating the path over and over  (this was added with scripts in mind)
 
     for i = 1, tonumber(metaData.inputMode) do
@@ -145,7 +146,6 @@ function quaverParse(file, argument)
             
             return false
         end
-
     end
     metaData.songLength = Song:getDuration()
 
@@ -157,5 +157,5 @@ function quaverParse(file, argument)
 
     
 
-    return true
+    return metaData
 end

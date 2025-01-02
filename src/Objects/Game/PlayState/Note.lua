@@ -21,6 +21,7 @@ function Note:new(lane, StartTime, EndTime)
     self.visible = true
     self.wasHit = false
     self.tooLate = false
+    self.alpha = 1
     if Mods.fadeIn then
         self.alpha = 0
     end

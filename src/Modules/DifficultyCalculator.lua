@@ -1,4 +1,3 @@
- 
 local chunkLength = 5               -- seconds per chunk
 local npsWindows = 6             --now many different windows there are (i would stop around where the highest window is from lke 35- whatever)
 local npsWindowWidth = 5             -- how many notes per second per window to increase difficulty score (im ass at explaining things)
