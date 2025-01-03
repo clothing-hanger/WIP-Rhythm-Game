@@ -113,7 +113,7 @@ function PreLoader:update(dt)
                 safeBackground,
                 safeBanner,
                 safeAudio,
-                safeDifficulty, -- Added here
+                safeDifficulty, -- Added here  (what the fuck does this comment mean)
                 "Quaver"
             )
 
@@ -164,7 +164,7 @@ function PreLoader:draw()
     love.graphics.setColor(1,1,1)
     love.graphics.draw(logo, Inits.GameWidth/2, Inits.GameHeight/2-130, nil, 1.15, 1.15, logo:getWidth()/2, logo:getHeight()/2)
     love.graphics.printf("Hang tight! Harmoni is processing your songs!\nThis might take some time if the song has not been processed before.\nPlease don't close the game!! (unless you really wanna.. i dont care lmfao)\n\n"..(bottomLineTexts[bottomLineText] or ""), 0, Inits.GameHeight/2, Inits.GameWidth, "center")
-    love.graphics.printf(string.format("%.2f",math.min((frame/#SongList)*100,100)).."%", 100, Inits.GameHeight-180, 10000, "left")
+    love.graphics.printf(frame .. "/" .. #SongList .. "  (" .. string.format("%.2f",math.min((frame/#SongList)*100,100)).."%)", 100, Inits.GameHeight-180, 10000, "left")
     love.graphics.printf("Music/" .. SongList[frame], 100, Inits.GameHeight - 50, 1000, "left")
    love.graphics.printf(((foundMeta and "Reading ") or "Creating") .. " meta data for " .. (safeTitle or "???"), 100, Inits.GameHeight-150, 10000, "left")
     for i =1,#loadingArrows do
