@@ -317,7 +317,7 @@ function SongSelect:setupDifficultyList()
             table.insert(DifficultyList, SongContents[i])
             for j, difficulty in ipairs(metaData.difficulties) do
                 if tostring(DifficultyList[i]) == difficulty.fileName then
-                    table.insert(DifficultyButtons, Objects.Menu.DifficultyButton(difficulty.diffName, "PLACEHOLDER", "PLACEHOLDER", i))
+                    table.insert(DifficultyButtons, Objects.Menu.DifficultyButton(difficulty.diffName, difficulty.charter, difficulty.difficulty, i))
                 end
             end
         end

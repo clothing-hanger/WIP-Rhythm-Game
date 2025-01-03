@@ -36,8 +36,12 @@ end
 
 function DifficultyButton:draw()
     if self.selected then love.graphics.setColor(0, 1, 1) end
+    love.graphics.setColor(Skin.Colors["Song Button Fill"])
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+  
+    love.graphics.setColor(Skin.Colors["Song Button Line"])
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
-    love.graphics.print(self.diffName, self.x, self.y)
+    love.graphics.print(self.diffName .. "  |  " .. self.difficulty, self.x, self.y)
     --print(self.diffName)
     love.graphics.setColor(1, 1, 1)
 end

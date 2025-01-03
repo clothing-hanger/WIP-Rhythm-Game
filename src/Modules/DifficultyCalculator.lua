@@ -131,7 +131,7 @@ function calculateAverageDifficulty(chunks)
     local chunkCount = #chunks
     for _, Chunk in ipairs(chunks) do
         if Chunk.difficulty then
-            totalDifficulty = totalDifficulty + Chunk.difficulty
+            if Chunk.difficulty > 0 then totalDifficulty = totalDifficulty + Chunk.difficulty end  -- dont wanna add breaks to overall song difficulty
         end
     end
     local averageDifficulty = totalDifficulty / chunkCount
