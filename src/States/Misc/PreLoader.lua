@@ -29,6 +29,15 @@ function PreLoader:enter()
         "dont close me if i look frozen im faking",
         "if your PC didn't SUCK SO MUCH i could load faster",
         "blame your computer",
+        "not my fault your PC IS ASS",
+        "just play quaver or something it wont take 9 years to load",
+        "delete harmoni please",
+        "osu is better in like every way why are you playing this shitass game",
+        "my balls itch",
+        "PLEASE get a better pc :sob:",
+        "your pc is slow, not harmoni (this is a joke its harmoni's fault)",
+        "if youre bored try throwing your nintendo switch down the stairs its kinda fun",
+        "if the game looks like its frozen its because it is frozen lmao harmoni sucks",
     }
     bottomLineText = love.math.random(1,#bottomLineTexts)
 
